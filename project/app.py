@@ -1,18 +1,20 @@
-from flask import Flask
 import sqlite3
-from flask import Flask, g, render_template, request, session, flash, redirect, url_for, abort, jsonify
+from flask import Flask, g, render_template, request, session, flash, url_for, redirect, abort, jsonify
+
 
 # configuration
 DATABASE = "flaskr.db"
 USERNAME = "admin"
 PASSWORD = "admin"
-SECRET_KEY = "change_me"
+SECRET_KEY = "thisisasecret"
+
 
 # create and initialize a new Flask app
 app = Flask(__name__)
 
 # load the config
 app.config.from_object(__name__)
+
 
 # connect to database
 def connect_db():
@@ -44,13 +46,15 @@ def close_db(error):
     if hasattr(g, "sqlite_db"):
         g.sqlite_db.close()
 
-@app.route('/')
+
+@app.route("/")
 def index():
     """Searches the database for entries, then displays them."""
     db = get_db()
     cur = db.execute('select * from entries order by id desc')
     entries = cur.fetchall()
     return render_template('index.html', entries=entries)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -75,6 +79,7 @@ def logout():
     flash('You were logged out')
     return redirect(url_for('index'))
 
+
 @app.route('/add', methods=['POST'])
 def add_entry():
     """Add new post to database."""
@@ -88,6 +93,7 @@ def add_entry():
     db.commit()
     flash('New entry was successfully posted')
     return redirect(url_for('index'))
+
 
 @app.route('/delete/<post_id>', methods=['GET'])
 def delete_entry(post_id):

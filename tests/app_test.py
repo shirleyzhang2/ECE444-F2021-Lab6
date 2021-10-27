@@ -1,8 +1,8 @@
+import json
 import pytest
 import os
-import json
-
 from pathlib import Path
+
 from project.app import app, init_db
 
 TEST_DB = "test.db"
