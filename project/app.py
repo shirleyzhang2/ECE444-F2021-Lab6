@@ -2,8 +2,6 @@ from flask import Flask
 import sqlite3
 from flask import Flask, g, render_template, request, session, flash, redirect, url_for, abort, jsonify
 
-
-
 # configuration
 DATABASE = "flaskr.db"
 USERNAME = "admin"
